@@ -47,8 +47,11 @@ IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
   SET_TARGET_PROPERTIES(libe2e PROPERTIES COMPILE_FLAGS "-fPIC")
 ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 
+target_include_directories(libe2e PUBLIC ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(libe2e PUBLIC ${OpenCV_LIBRARIES})
+
 add_executable(libe2e_test main.cpp)
-target_link_libraries(libe2e_test libe2e ${OpenCV_LIBRARIES})
+target_link_libraries(libe2e_test libe2e)
 
 
 

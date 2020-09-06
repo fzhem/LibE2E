@@ -72,15 +72,31 @@ namespace E2E
 
 		calculatedChecksum -= 0x789ABCDF;
 	}
+	
+	bool DictEntryRawData::validChecksum() const
+	{
+		if(rawdata.checksum == 0)
+		{
+			return true;
+		}
+		return (calculatedChecksum - rawdata.checksum) == 0;
+	}
 
 	bool DictEntryRawData::validIndexEntry() const
 	{
 		switch(type)
 		{
 			case EntryType::Data:
-				return rawdata.dataAddress == foundAddr && (std::memcmp(dataRawHeader.mdbdataStr, "MDbData", 8) == 0);
+			{
+				const bool addrTest = rawdata.dataAddress == foundAddr;
+				const bool strTest  = std::memcmp(dataRawHeader.mdbdataStr, "MDbData", 8) == 0;
+				return addrTest && strTest;
+			}
 			case EntryType::Dir:
-				return rawdata.indexAddress == foundAddr;
+			{
+				const bool addrTest = rawdata.indexAddress == foundAddr;
+				return addrTest;
+			}
 		}
 		assert(false);
 

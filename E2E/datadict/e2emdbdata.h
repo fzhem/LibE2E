@@ -40,7 +40,6 @@ namespace E2E
 
 	class MDbData
 	{
-// 		DictEntryRawData*                    dictRawData = nullptr;
 		std::unique_ptr<DictEntryRawData>    dictRawData;
 		const DictEntryRawData&              mdbDirEntry;
 		E2E::DataRoot&                       e2edata;
@@ -53,9 +52,6 @@ namespace E2E
 
 		MDbData(const E2E::Options& options, std::ifstream& stream, E2E::DataRoot& e2edata, const E2E::DictEntryRawData& mdbDirEntry);
 		~MDbData();
-
-		bool isValid(const DictEntryRawData& mdbDirEntry);
-
 
 		Patient&  getPatient();
 		Study  &  getStudy  ();

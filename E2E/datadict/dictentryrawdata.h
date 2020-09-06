@@ -63,7 +63,7 @@ namespace E2E
 
 		void print(std::ostream& stream) const;
 
-		bool validChecksum()                                     const { return (calculatedChecksum - rawdata.checksum) == 0; }
+		bool validChecksum()                                     const;
 		bool validIndexEntry()                                   const;
 		bool isValid()                                           const { return validIndexEntry() && validChecksum(); }
 

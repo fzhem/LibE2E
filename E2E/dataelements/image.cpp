@@ -18,11 +18,8 @@
 
 #include "image.h"
 
-// #include <ostream>
-
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-// #include <opencv2/imgcodecs.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgcodecs.hpp>
 
 #include "../streamhelper.h"
 #include "../datadict/e2emdbdata.h"

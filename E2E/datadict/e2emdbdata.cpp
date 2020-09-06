@@ -25,6 +25,7 @@
 #include <cstring>
 #include <iostream>
 #include <iomanip>
+#include <memory>
 
 #include "../structure/root.h"
 
@@ -89,20 +90,20 @@ namespace E2E
 
 
 // 		stream.seekg(mdbDirEntry.getRaw().dataAddress);
-// 		dictRawData = new DictEntryRawData(stream, mdbDirEntry.getRaw().dataAddress, DictEntryRawData::EntryType::Data); // TODO: move tellg to DictEntryRawData class? complexity?
+// 		dictRawData = std::make_unique<DictEntryRawData>(stream, mdbDirEntry.getRaw().dataAddress, DictEntryRawData::EntryType::Data); // TODO: move tellg to DictEntryRawData class? complexity?
 // 		const DictEntryRawData::Raw& data = dictRawData->getRaw();
 
 		// DEBUG_OUT(mdbDirEntry.validChecksum() << '\t' << mdbDirEntry.validIndexEntry() << '\t');
 		// DEBUG_OUT(dictRawData->validChecksum() << '\t' << dictRawData->validIndexEntry() << '\t');
-		DEBUG_OUT(isValid(mdbDirEntry) << "\t" << std::hex << mdbDirEntry.getRaw().indexAddress << "\t" << mdbDirEntry.getRaw().dataAddress << "\t" << mdbDirEntry.getRaw().dataLengt << "\t" << " (" << std::dec << mdbDirEntry.getRaw().dataLengt << ")")
-		DEBUG_OUT( '\t' << mdbDirEntry.getRaw().zero << '\t' << mdbDirEntry.getRaw().patientID << '\t' << mdbDirEntry.getRaw().studyID << '\t' << mdbDirEntry.getRaw().seriesID << '\t' << mdbDirEntry.getRaw().imageID << '\t' << mdbDirEntry.getRaw().subID << '\t')
+// 		DEBUG_OUT(std::hex << mdbDirEntry.getRaw().indexAddress << "\t" << mdbDirEntry.getRaw().dataAddress << "\t" << mdbDirEntry.getRaw().dataLengt << "\t" << " (" << std::dec << mdbDirEntry.getRaw().dataLengt << ")")
+// 		DEBUG_OUT( '\t' << mdbDirEntry.getRaw().zero << '\t' << mdbDirEntry.getRaw().patientID << '\t' << mdbDirEntry.getRaw().studyID << '\t' << mdbDirEntry.getRaw().seriesID << '\t' << mdbDirEntry.getRaw().imageID << '\t' << mdbDirEntry.getRaw().subID << '\t')
 		// DEBUG_OUT(mdbDirEntry.getRaw().unknown << '\t' << mdbDirEntry.getRaw().type << '\t')
 			
 
 
-		DEBUG_OUT('(' << mdbDirEntry.getRaw().unknown << " - " << data.unknown << ")\t")
+// 		DEBUG_OUT('(' << mdbDirEntry.getRaw().unknown << " - " << data.unknown << ")\t")
 		DEBUG_OUT(std::hex << mdbDirEntry.getRaw().type << '\t')
-		DEBUG_OUT('(' << (data.checksum - 0x8765431C - mdbDirEntry.getRaw().indexAddress) << ")\t")
+// 		DEBUG_OUT('(' << (data.checksum - 0x8765431C - mdbDirEntry.getRaw().indexAddress) << ")\t")
 
 
 		// DEBUG_OUT("[ " /* << mdbDirEntry.calculatedChecksum << '\t' */ << std::dec << (mdbDirEntry.getCalculatedChecksum() - mdbDirEntry.data.checksum - 0x789ABCDF) << " ]\t");
@@ -570,6 +571,11 @@ namespace E2E
 				}
 				// e2edata->imageMetaData.readData(stream);
 				break;
+			case 0x2730:
+			{
+				std::cerr << "0x2730\n";
+			}
+				break;
 			case 0x2723: // Segentierungsdaten
 				DEBUG_OUT("Segentierungsdaten");
 				validOrThrow(stream);
@@ -769,6 +775,11 @@ namespace E2E
 		try
 		{
 			MDbData data(options, stream, e2edata, mdbDirEntry);
+		}
+		catch(const char* str)
+		{
+			DEBUG_OUT(str << std::endl);
+			return false;
 		}
 		catch(...)
 		{
