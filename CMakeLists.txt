@@ -3,7 +3,7 @@ project(libe2e)
 
 find_package(Boost 1.40 COMPONENTS filesystem system REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(OctCppFramework REQUIRED)
+find_package(OctCppFramework CONFIG REQUIRED)
 
 set(LibE2E_VERSION 1.0.0)
 set(CMAKE_DEBUG_POSTFIX "-d")
@@ -16,10 +16,9 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "-std=c++11")
 
 	if(${WIN32})
-		set(CMAKE_CXX_FLAGS "-mno-ms-bitfields -static -static-libstdc++ ${CMAKE_CXX_FLAGS}")
+		set(CMAKE_CXX_FLAGS "-mno-ms-bitfields ${CMAKE_CXX_FLAGS}")
 	endif()
 endif()
-
 
 file(GLOB sources_b "${CMAKE_CURRENT_SOURCE_DIR}/E2E/*.cpp")
 file(GLOB sources "${CMAKE_CURRENT_SOURCE_DIR}/E2E/**/*.cpp")
@@ -40,12 +39,12 @@ endif()
 
 link_libraries(OctCppFramework::oct_cpp_framework)
 
-add_library(libe2e ${sources})
+add_library(libe2e STATIC ${sources})
 
 
-IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND NOT "${WIN32}" )
   SET_TARGET_PROPERTIES(libe2e PROPERTIES COMPILE_FLAGS "-fPIC")
-ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+ENDIF()
 
 target_include_directories(libe2e PUBLIC ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(libe2e PUBLIC ${OpenCV_LIBRARIES})
@@ -93,7 +92,6 @@ export(EXPORT LibE2ETargets
 )
 configure_file(cmake/LibE2EConfig.cmake
   "${CMAKE_CURRENT_BINARY_DIR}/libe2e/LibE2EConfig.cmake"
-  COPY_ONLY
 )
 
 target_include_directories(
