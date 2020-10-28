@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 #include "structure/root.h"
 
@@ -44,7 +44,7 @@ namespace E2E
 	public:
 		E2EData();
 		
-		bool readE2EFile(const std::string& filename, CppFW::Callback* callback = nullptr);
+		bool readE2EFile(const std::filesystem::path& filename, CppFW::Callback* callback = nullptr);
 
 		const DataRoot& getDataRoot() const                            { return dataRoot; }
 

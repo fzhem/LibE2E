@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(libe2e)
 
-find_package(Boost 1.40 COMPONENTS filesystem system REQUIRED)
+set( CMAKE_CXX_STANDARD 17 )
+
 find_package(OpenCV REQUIRED)
 find_package(OctCppFramework CONFIG REQUIRED)
 
@@ -13,7 +14,6 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(compiler_flags_debug "-Wall -Wextra -Wunreachable-code -Werror -Wconversion")        ## -Weverything
-	set(CMAKE_CXX_FLAGS "-std=c++11")
 
 	if(${WIN32})
 		set(CMAKE_CXX_FLAGS "-mno-ms-bitfields ${CMAKE_CXX_FLAGS}")

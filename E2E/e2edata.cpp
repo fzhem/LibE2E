@@ -42,7 +42,7 @@ namespace E2E
 
 
 
-	bool E2EData::readE2EFile(const std::string& filename, CppFW::Callback* callback)
+	bool E2EData::readE2EFile(const std::filesystem::path& filename, CppFW::Callback* callback)
 	{
 		std::ifstream stream(filename, std::ios::binary | std::ios::in);
 		if(!stream)
