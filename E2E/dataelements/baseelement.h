@@ -19,6 +19,8 @@
 #pragma once
 
 #include <istream>
+#include <cstdint>
+#include <cstddef>
 
 namespace E2E
 {
