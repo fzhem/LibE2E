@@ -20,6 +20,8 @@
 
 #include <fstream>
 #include <ostream>
+#include <cstdint>
+#include <cstddef>
 
 #include "../e2e_packhelper.h"
 
